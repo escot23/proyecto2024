@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+</head>
+<body>
+    <h1>Registro de Usuario</h1>
+    <form id="registrationForm">
+        <input type="email" id="email" required placeholder="Correo Electrónico">
+        <input type="password" id="password" required placeholder="Contraseña">
+        <input type="password" id="confirmPassword" required placeholder="Repetir Contraseña">
+        <input type="text" id="pin" required pattern="\d{6}" placeholder="Pin (6 digitos)">
+        <input type="text" id="name" required placeholder="Nombre">
+        <input type="text" id="lastName" required placeholder="Apellidos">
+        <input type="text" id="country" placeholder="País">
+        <input type="date" id="birthdate" required placeholder="Fecha de Nacimiento">
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        // Obtener los datos del formulario
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var pin = document.getElementById("pin").value;
+        var name = document.getElementById("name").value;
+        var lastName = document.getElementById("lastName").value;
+        var country = document.getElementById("country").value;
+        var birthdate = document.getElementById("birthdate").value;
+
+        // Crear una instancia de XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+
+        // Configurar la solicitud
+        xhr.open("POST", "/register", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Manejar la respuesta
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                alert("Usuario registrado correctamente");
+            } else {
+                alert("Hubo un error al registrar el usuario");
+            }
+        };
+
+        // Manejar errores de red
+        xhr.onerror = function() {
+            console.error("Error al registrar el usuario:", xhr.statusText);
+        };
+
+        // Enviar la solicitud con los datos del formulario
+        xhr.send(JSON.stringify({
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            pin: pin,
+            name: name,
+            lastName: lastName,
+            country: country,
+            birthdate: birthdate
+        }));
+    });
+    </script>
+</body>
+</html>
